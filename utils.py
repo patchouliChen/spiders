@@ -41,3 +41,10 @@ def get_date(dateString):
     month = int(month)
     day = int(day)
     return datetime.date(year, month, day)
+
+def read_lines(filename):
+    f = open(filename, "r")
+    keywords = f.readlines()
+    keywords = [keyword.rstrip() for keyword in keywords]
+    f.close()
+    return keywords

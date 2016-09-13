@@ -69,7 +69,7 @@ class BtMeet:
 
 usage = """
 usage:
-    python main.py keyword(s)
+    python main.py filename
 """
 
 if __name__ == "__main__":
@@ -79,6 +79,6 @@ if __name__ == "__main__":
         print usage 
         exit()
 
-    keywords = argv[1:len(argv)]
+    keywords = read_lines(argv[1])
     btmeet = BtMeet()
     btmeet.searchAll(keywords)
