@@ -17,7 +17,12 @@ def is_file_exists(fileName):
 
 def get_page(url, proxies={}):
     print "...getting page code...", url
-    request = requests.get(url=url, proxies=proxies)
+    try:
+        request = requests.get(url=url, proxies=proxies, timeout=10.0)
+    except requests.exceptions.Timeout:
+        return get_page(url, proxies)
+    except requests.exceptions.ConnectionError:
+        return get_page(url, proxies)
     return request.content
 
 def clean_log(fileName):
