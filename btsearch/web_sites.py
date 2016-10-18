@@ -95,7 +95,7 @@ web_list = [
         "page_format" : "list/%s/%d",
         "post_pattern" : '<a href="/(info-.*?)">',
         "magnet_pattern" : '<a href="(magnet:\?xt=urn:btih:.*?)"',
-        "active" : True,
+        "active" : False,
     },
 
     {
