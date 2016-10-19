@@ -146,5 +146,6 @@ if __name__ == "__main__":
     output_file = os.path.join(root_path, filename)
     f = open(output_file, "wa")
     for magnet in magnets:
-        f.write(magnet + "\n")
+        if len(magnet) == 60:
+            f.write(magnet + "\n")
     f.close()
