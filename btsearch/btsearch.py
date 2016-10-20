@@ -1,4 +1,6 @@
+#!/usr/bin/env python
 # -*- coding:utf-8 -*-
+import argparse
 import os
 import re
 import sys
@@ -113,19 +115,18 @@ class Oooc(BtSearch):
         url = '/'.join([self.cfg["home"], page_name])
         return get_page(url, self.proxies)
 
-usage = """
-usage:
-    python main.py filename
-"""
+def main():
+    # parse arguments
+    parser = argparse.ArgumentParser(description="BtSearch") 
+    parser.add_argument("filename", help=("keys to be searched"))
+    #parser.add_argument("directory", help="Where to save the magnets")
+    #parser.add_argument("-l", "--log-level", help="Log level", default='info')
+    #parser.add_argument("-p", "--process", help="Number of concurrent processes to use")
 
-if __name__ == "__main__":
-    argv = sys.argv
-    
-    if len(argv) < 2:
-        print usage 
-        exit()
+    args = parser.parse_args()
+    filename = args.filename
 
-    keywords = read_lines(argv[1])
+    keywords = read_lines(filename)
 
     magnets = set()
     for cfg in web_list:
@@ -149,3 +150,6 @@ if __name__ == "__main__":
         if len(magnet) == 60:
             f.write(magnet + "\n")
     f.close()
+
+if __name__ == "__main__":
+    main()
