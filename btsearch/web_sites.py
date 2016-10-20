@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 # -*- coding:utf-8 -*-
 
 web_list = [
@@ -6,6 +7,14 @@ web_list = [
         "page_format" : "%s-first-asc-%d",
         "post_pattern" : '<a href="/(.*?)" target="_blank">',
         "magnet_pattern" : '(magnet:\?xt=urn:btih:.*?)&dn=',
+        "active" : False,
+    },
+
+    {
+        "home" : "http://www.zhongziso.com",
+        "page_format" : "list/%s/%d",
+        "post_pattern" : '<a href="/(info-.*?)">',
+        "magnet_pattern" : '<a href="(magnet:\?xt=urn:btih:.*?)"',
         "active" : False,
     },
 
@@ -23,7 +32,7 @@ web_list = [
         "post_pattern" : '<a title=".*?" class="title" href="/h/(.*?)">',
         "magnet_pattern" : '"info_hash": "(.*?)",',
         "active" : True,
-        "class_name" : "Cilibaba",
+        "Cilibaba" : True,
     },
 
     {
@@ -67,22 +76,6 @@ web_list = [
     },
 
     {
-        "home" : "https://sukebei.nyaa.se",
-        "page_format" : "\?page=search&term=%soffset=%d",
-        "post_pattern" : '<a href="//sukebei.nyaa.se/(\?page=view&#38;tid=.*?)">',
-        "magnet_pattern" : '',
-        "active" : False,
-    },
-
-    {
-        "home" : "https://www.nyaa.se/",
-        "page_format" : "\?page=search&term=%soffset=%d",
-        "post_pattern" : '<a href="//sukebei.nyaa.se/(\?page=view&#38;tid=.*?)">',
-        "magnet_pattern" : '',
-        "active" : False,
-    },
-    
-    {
         "home" : "http://www.zhaobt.org",
         "page_format" : "%s-first-asc-%d.html",
         "post_pattern" : '<a href="/(.*?.html)" rel="nofollow"',
@@ -90,13 +83,6 @@ web_list = [
         "active" : True,
     },
 
-    {
-        "home" : "http://www.zhongziso.com",
-        "page_format" : "list/%s/%d",
-        "post_pattern" : '<a href="/(info-.*?)">',
-        "magnet_pattern" : '<a href="(magnet:\?xt=urn:btih:.*?)"',
-        "active" : False,
-    },
 
     {
         "home" : "http://www.btbadboy.com",
@@ -136,7 +122,7 @@ web_list = [
         "post_pattern" : '<a href="/(.*?/.*?.html)"',
         "magnet_pattern" : '<a href="(magnet:\?xt=urn:btih:.*?)&amp;',
         "active" : True,
-        "class_name" : "Oooc",
+        "Oooc" : True,
     },
 
     {
