@@ -4,21 +4,20 @@ import argparse
 import os
 import re
 import sys
-import requests
-import datetime
 import Queue
 import threading
 import time
+
 sys.path.append("../")
 from utils import *
 from web_sites import web_list
 
-root_path = os.path.join(os.path.curdir, "btsearch_spider")
-log_file = os.path.join(root_path, "log")
 
 class BtSearch:
-    def __init__(self, keys_file):
+    def __init__(self, keys_file, directory, thread_num=100):
         self.keys_file = keys_file
+        self.directory = directory
+        self.thread_num = thread_num
         self.keywords = read_lines(self.keys_file)
 
         # shadowsocks
@@ -26,13 +25,10 @@ class BtSearch:
         self.magnets = set()
 
         self.page_fetch_queue = Queue.Queue()
-        self.page_worker = 10
-
         self.magnet_fetch_queue = Queue.Queue()
-        self.magnet_worker = 10
 
     def run(self):
-        for _ in xrange(self.page_worker):
+        for _ in xrange(self.thread_num):
             page_thread = threading.Thread(target = self.page_fetcher)
             page_thread.daemon = True
             page_thread.start()
@@ -46,15 +42,18 @@ class BtSearch:
 
         self.page_fetch_queue.join()
 
-        for _ in xrange(self.magnet_worker):
+        for _ in xrange(self.thread_num):
             magnet_thread = threading.Thread(target = self.magnet_fetcher)
             magnet_thread.daemon = True
             magnet_thread.start()
 
         self.magnet_fetch_queue.join()
 
+        if not os.path.exists(self.directory):
+            os.makedirs(self.directory)
+
         filename = '_'.join(self.keywords) + ".txt"
-        output_file = os.path.join(root_path, filename)
+        output_file = os.path.join(self.directory, filename)
         f = open(output_file, "wa")
         for magnet in self.magnets:
             if len(magnet) == 60:
@@ -131,14 +130,15 @@ class BtSearch:
 def main():
     # parse arguments
     parser = argparse.ArgumentParser(description="BtSearch") 
-    parser.add_argument("keys_file", help=("keys to be searched"))
-    #parser.add_argument("directory", help="Where to save the magnets")
-    #parser.add_argument("-l", "--log-level", help="Log level", default='info')
-    #parser.add_argument("-p", "--process", help="Number of concurrent processes to use")
+    parser.add_argument("keys_file", help="keys to be searched")
+    parser.add_argument('directory', help="Where to save the magnets")
+    parser.add_argument("-t", "--thread", help="Number of threads to use", type=int, dest="thread_num", default=100)
 
     args = parser.parse_args()
 
-    bs = BtSearch(args.keys_file)
+    bs = BtSearch(keys_file=args.keys_file,
+            directory=args.directory,
+            thread_num=args.thread_num)
     bs.run()
 
 if __name__ == "__main__":
