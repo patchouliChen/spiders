@@ -23,6 +23,8 @@ def get_page(url, proxies={}):
         return get_page(url, proxies)
     except requests.exceptions.ConnectionError:
         return get_page(url, proxies)
+    except requests.exceptions.ContentDecodingError:
+        return get_page(url, proxies)
     return request.content
 
 def clean_log(fileName):
