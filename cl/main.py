@@ -63,6 +63,7 @@ class CL:
                 "http://.*?ihostimg.com.*?.[jpg|jpeg|gif]",
                 "http://.*?imgspice.com.*?.[jpg|jpeg|gif]",
                 "http://.*?anony.ws.*?.[jpg|jpeg|gif]",
+                "http://.*?imgs.co.*?.[jpg|jpeg|gif]",
 
                 "http://.*?imagestorming.com/images.*?.[jpg|jpeg|gif]",
                 "http://.*?bigtox.com.*?.[jpg|jpeg|gif]",
