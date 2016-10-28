@@ -36,6 +36,9 @@ class BtSearch:
         self.magnet_fetch_queue = Queue.Queue()
 
     def run(self):
+        if not os.path.exists(self.directory):
+            os.makedirs(self.directory)
+
         for _ in xrange(self.thread_num):
             page_thread = threading.Thread(target = self.page_fetcher)
             page_thread.daemon = True
@@ -56,9 +59,6 @@ class BtSearch:
             magnet_thread.start()
 
         self.magnet_fetch_queue.join()
-
-        if not os.path.exists(self.directory):
-            os.makedirs(self.directory)
 
         filename = '_'.join(self.keywords) + ".txt"
         output_file = os.path.join(self.directory, filename)
