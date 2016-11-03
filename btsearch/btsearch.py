@@ -35,9 +35,10 @@ class BtSearch:
         self.page_fetch_queue = Queue.Queue()
         self.magnet_fetch_queue = Queue.Queue()
 
+        setup_logging("BtSearch")
+
     def run(self):
-        if not os.path.exists(self.directory):
-            os.makedirs(self.directory)
+        mkdir(self.directory)
 
         for _ in xrange(self.thread_num):
             page_thread = threading.Thread(target = self.page_fetcher)
@@ -135,10 +136,12 @@ class BtSearch:
             page_name = cfg["page_format"] % keyword
             url = '/'.join([cfg["home"], page_name])
             data = {"text" : keyword, "page" : page_num}  
+            log("[POST]", url)
             return post_page(url, data, self.proxies)
         else:
             page_name = cfg["page_format"] % (keyword, page_num)
             url = '/'.join([cfg["home"], page_name])
+            log("[GET]", url)
             return get_page(url, self.proxies)
 
     def get_post_match_iter(self, cfg, page_code):
@@ -177,6 +180,7 @@ class BtSearch:
     def search_one_post(self, cfg, post_url, keyword):
         post_url = '/'.join([cfg["home"], post_url])
 
+        log("[GET SUB]", post_url)
         sub_page_code = get_page(post_url, self.proxies)
 
         if cfg.get("Cilibaba") != None:
@@ -189,9 +193,12 @@ class BtSearch:
     def download_torrent(self, cfg, page_code):
         title = re.findall(cfg["download_title"], page_code, re.S)[0]
         title = title.replace("/", "")
-        download_url = re.findall(cfg["download_pattern"], page_code, re.S)[1]
         output_file = os.path.join(self.directory, title + ".torrent")
-        torrent_data = get_page("/".join([cfg["home"], download_url]), proxies=self.proxies)
+
+        download_url = re.findall(cfg["download_pattern"], page_code, re.S)[1]
+        download_url = "/".join([cfg["home"], download_url])
+        log("[Download]", download_url)
+        torrent_data = get_page(download_url, proxies=self.proxies)
         f = open(output_file, "wb")
         f.write(torrent_data)
         f.close()

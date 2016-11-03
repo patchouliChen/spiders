@@ -2,6 +2,23 @@
 import os
 import requests
 import datetime
+import logging
+
+logger = None
+
+def setup_logging(name="Default"):
+    global logger
+    logger = logging.getLogger(name) 
+    logger.addHandler(logging.StreamHandler())
+    logger.setLevel(logging.INFO)
+
+def log(*strings, **kwargs):
+    global logger
+    if logger == None:
+        setup_logging()
+
+    level = kwargs.pop("level", logging.INFO)
+    logger.log(level, " ".join(s for s in strings))
 
 def mkdir(path):
     path = path.strip()
@@ -17,7 +34,6 @@ def is_file_exists(fileName):
 
 def get_page(url, proxies={}):
     url = url.replace("#38;", "")
-    print "...getting page code...", url
     try:
         headers={"User-Agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36"}
         request = requests.get(url=url, proxies=proxies, timeout=10.0, headers = headers)
@@ -30,7 +46,7 @@ def get_page(url, proxies={}):
     return request.content
 
 def post_page(url, data={}, proxies={}):
-    print "...posting page code...", url
+    url = url.replace("#38;", "")
     try:
         headers={"User-Agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36"}
         request = requests.post(url=url, data=data, proxies=proxies, timeout=10.0, headers = headers)
@@ -41,18 +57,6 @@ def post_page(url, data={}, proxies={}):
     except requests.exceptions.ContentDecodingError:
         return post_page(url, data, proxies)
     return request.content
-
-def clean_log(fileName):
-    f = open(fileName, "w")
-    f.truncate()
-    f.close()
-
-def log_file(fileName, *arg):
-    log_text = ''.join(arg)
-    log_text += "\n"
-    f = open(fileName, "a")
-    f.write(log_text)
-    f.close()
 
 def get_date(dateString):
     """
@@ -66,7 +70,7 @@ def get_date(dateString):
 
 def read_lines(filename):
     f = open(filename, "r")
-    keywords = f.readlines()
-    keywords = [keyword.rstrip() for keyword in keywords]
+    lines = f.readlines()
+    lines = [line.rstrip() for line in lines]
     f.close()
-    return keywords
+    return lines
