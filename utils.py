@@ -38,10 +38,13 @@ def get_page(url, proxies={}):
         headers={"User-Agent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36"}
         request = requests.get(url=url, proxies=proxies, timeout=10.0, headers = headers)
     except requests.exceptions.Timeout:
+        log("[RETRY Timeout]", url)
         return get_page(url, proxies)
     except requests.exceptions.ConnectionError:
+        log("[RETRY ConnectError]", url)
         return get_page(url, proxies)
     except requests.exceptions.ContentDecodingError:
+        log("[RETRY DecodingError]", url)
         return get_page(url, proxies)
     return request.content
 
