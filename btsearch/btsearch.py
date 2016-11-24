@@ -69,7 +69,7 @@ class BtSearch:
         for magnet in self.magnets:
             if magnet.find(BtSearch.MAGNET_PREFIX) == -1:
                 magnet = BtSearch.MAGNET_PREFIX + magnet
-            if len(magnet) == 60 or len(magnet) == 52 or len(magnet) == 64:
+            if len(magnet) == 60 or len(magnet) == 64:
                 f.write(magnet + "\n")
         f.close()
 
@@ -136,12 +136,12 @@ class BtSearch:
             page_name = cfg["page_format"] % keyword
             url = '/'.join([cfg["home"], page_name])
             data = {"text" : keyword, "page" : page_num}  
-            log("[POST]", url)
+            log("[POST] ", url)
             return post_page(url, data, self.proxies)
         else:
             page_name = cfg["page_format"] % (keyword, page_num)
             url = '/'.join([cfg["home"], page_name])
-            log("[GET]", url)
+            log("[GET] ", url)
             return get_page(url, self.proxies)
 
     def get_post_match_iter(self, cfg, page_code):
@@ -180,7 +180,7 @@ class BtSearch:
     def search_one_post(self, cfg, post_url, keyword):
         post_url = '/'.join([cfg["home"], post_url])
 
-        log("[GET SUB]", post_url)
+        log("[GET SUB] ", post_url)
         sub_page_code = get_page(post_url, self.proxies)
 
         if cfg.get("Cilibaba") != None:
