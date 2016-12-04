@@ -199,9 +199,12 @@ class BtSearch:
         download_url = "/".join([cfg["home"], download_url])
         log("[Download]", download_url)
         torrent_data = get_page(download_url, proxies=self.proxies)
-        f = open(output_file, "wb")
-        f.write(torrent_data)
-        f.close()
+        try:
+            f = open(output_file, "wb")
+            f.write(torrent_data)
+            f.close()
+        except IOError:
+            pass
 
     def get_magnets(self, cfg, page_code):
         magnets = re.findall(cfg["magnet_pattern"], page_code, re.S)
