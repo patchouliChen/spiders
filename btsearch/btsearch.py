@@ -137,12 +137,12 @@ class BtSearch:
             url = '/'.join([cfg["home"], page_name])
             data = {"text" : keyword, "page" : page_num}  
             log("[POST] ", url)
-            return post_page(url, data, self.proxies)
+            return post_page(url, data, cfg.get("proxies", self.proxies))
         else:
             page_name = cfg["page_format"] % (keyword, page_num)
             url = '/'.join([cfg["home"], page_name])
             log("[GET] ", url)
-            return get_page(url, self.proxies)
+            return get_page(url, cfg.get("proxies", self.proxies))
 
     def get_post_match_iter(self, cfg, page_code):
         match_iter = re.finditer(cfg["post_pattern"], page_code, re.S)
@@ -181,7 +181,7 @@ class BtSearch:
         post_url = '/'.join([cfg["home"], post_url])
 
         log("[GET SUB] ", post_url)
-        sub_page_code = get_page(post_url, self.proxies)
+        sub_page_code = get_page(post_url, cfg.get("proxies", self.proxies))
 
         if cfg.get("Cilibaba") != None:
             self.magnets.extend(self.get_magnets_cilibaba(cfg, sub_page_code))
@@ -198,7 +198,7 @@ class BtSearch:
         download_url = re.findall(cfg["download_pattern"], page_code, re.S)[1]
         download_url = "/".join([cfg["home"], download_url])
         log("[Download]", download_url)
-        torrent_data = get_page(download_url, proxies=self.proxies)
+        torrent_data = get_page(download_url, proxies=cfg.get("proxies", self.proxies))
         try:
             f = open(output_file, "wb")
             f.write(torrent_data)
@@ -214,7 +214,7 @@ class BtSearch:
         hashes = re.findall('/api\/json_info\?hashes=.*?\'.*?\'(.*?)\'', page_code)[0]
         json_url = '/'.join([cfg["home"], "api", "json_info?hashes=" + hashes])
         while True:
-            hash_page_code = get_page(json_url, self.proxies)
+            hash_page_code = get_page(json_url, cfg.get("proxies", self.proxies))
 
             sub_magnets = self.get_magnets(cfg, hash_page_code)
             if len(sub_magnets) <= 0:

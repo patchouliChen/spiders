@@ -9,6 +9,7 @@ web_list = [
         "magnet_pattern" : '"info_hash": "(.*?)",',
         "active" : True,
         "Cilibaba" : True,
+        "proxies" : {},
     },
 
     {
@@ -140,7 +141,7 @@ web_list = [
         "page_format" : "search/%s_ctime_%d.html",
         "post_pattern" : 'target="_blank" href="/(?P<post>.*?.html)">(?P<title>.*?)</a>',
         "magnet_pattern" : 'href="(magnet:\?xt=urn:btih:.*?)"', 
-        "active" : True,
+        "active" : False,
     },
 
     {
