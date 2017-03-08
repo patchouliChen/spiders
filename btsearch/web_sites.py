@@ -7,9 +7,9 @@ web_list = [
         "page_format" : "search/%s/?c=&s=relavance&p=%d",
         "post_pattern" : '<tr><td class="x-item">.*?<a title="(?P<title>.*?)" class="title" href="(?P<post>/h/.*?)">',
         "magnet_pattern" : '"info_hash": "(.*?)",',
-        "active" : True,
         "Cilibaba" : True,
         "proxies" : {},
+        "active" : True,
     },
 
     {
@@ -51,13 +51,6 @@ web_list = [
     },
 
     {
-        "home" : "http://www.tokyotosho.info",
-        "page_format" : "search.php?terms=%s&page=%d",
-        "post_pattern" : '<a href="(?P<magnet>magnet:\?xt=urn:btih:.*?)&amp.*?type="application/x-bittorrent" href="(?P<post>.*?)">(?P<title>.*?)<span class="s">',
-        "active" : False,
-    },
-
-    {
         "home" : "http://www.runbt.cc",
         "page_format" : "list/%s/%d/rala_d",
         "post_pattern" : '<div class=.*?href="http://www.runbt.cc/(?P<post>detail/.*?)">(?P<title>.*?)<a href="(?P<magnet>magnet:\?xt=urn:btih:.*?) ">',
@@ -69,16 +62,6 @@ web_list = [
         "home" : "http://www.btdog.com.cn",
         "page_format" : "index.php/index/search/q/%s/p/%d.html",
         "post_pattern" : '<h3><a href="/(?P<post>index.php/index/dht/q/.*?/infohash/.*?.html)"(?P<title>.*?)<a href="(?P<magnet>magnet:\?xt=urn:btih:.*?)"',
-        "active" : True,
-    },
-
-    {
-        "home" : "http://filelisting.com",
-        "page_format" : "result?q=%s&f=%d&d=1",
-        "post_pattern" : '<p class="filedir">.*?<a href="/(?P<post>.*?.html)" title="(?P<title>.*?)">',
-        "magnet_pattern" : '<td>.*?Hash.*?<p class="value">(.*?)</p>',
-        "page_num_type" : 3,
-        "per_page_count" : 20, 
         "active" : True,
     },
 
@@ -141,7 +124,7 @@ web_list = [
         "page_format" : "search/%s_ctime_%d.html",
         "post_pattern" : 'target="_blank" href="/(?P<post>.*?.html)">(?P<title>.*?)</a>',
         "magnet_pattern" : 'href="(magnet:\?xt=urn:btih:.*?)"', 
-        "active" : False,
+        "active" : True,
     },
 
     {
@@ -156,6 +139,7 @@ web_list = [
         "home" : "http://www.btany.com",
         "page_format" : "search/%s-first-asc-%d",
         "post_pattern" : '<div class="item-title">.*?<a href="/(?P<post>detail/.*?)"(?P<title>.*?)<a href="(?P<magnet>magnet:\?xt=urn:btih:.*?)"',
+        "proxies" : {},
         "active" : True,
     },
     
@@ -183,5 +167,30 @@ web_list = [
         "download_pattern" : '<a href="//sukebei.nyaa.se/(\?page=download&#38;tid=.*?)" ',
         "download_title" : '<title>(.*?)</title>',
         "active" : True,
+    },
+
+    {
+        "home" : "http://cilidb.com",
+        "page_format" : "page/%s/%d-0-0.shtml",
+        "post_pattern" : '<dt>.*?<a href=\'http://cilidb.com/(?P<post>magnet.*?shtml)\'(?P<title>.*?)</dt>',
+        "magnet_pattern" : '<a href=\'(magnet:\?xt=urn:btih:.*?)&amp;',
+        "active" : True,
+    },
+
+    {
+        "home" : "http://filelisting.com",
+        "page_format" : "result?q=%s&f=%d&d=1",
+        "post_pattern" : '<p class="filedir">.*?<a href="/(?P<post>.*?.html)" title="(?P<title>.*?)">',
+        "magnet_pattern" : '<td>.*?Hash.*?<p class="value">(.*?)</p>',
+        "page_num_type" : 3,
+        "per_page_count" : 20,
+        "active" : False,
+    },
+
+    {
+        "home" : "http://www.tokyotosho.info",
+        "page_format" : "search.php?terms=%s&page=%d",
+        "post_pattern" : '<a href="(?P<magnet>magnet:\?xt=urn:btih:.*?)&amp.*?type="application/x-bittorrent" href="(?P<post>.*?)">(?P<title>.*?)<span class="s">',
+        "active" : False,
     },
 ]
