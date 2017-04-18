@@ -195,7 +195,12 @@ class BtSearch:
         title = title.replace("/", "")
         output_file = os.path.join(self.directory, title + ".torrent")
 
-        download_url = re.findall(cfg["download_pattern"], page_code, re.S)[1]
+        try:
+            download_url = re.findall(cfg["download_pattern"], page_code, re.S)[1]
+        except IndexError:
+            print "#######", re.findall(cfg["download_pattern"], page_code, re.S)
+            return
+
         download_url = "/".join([cfg["home"], download_url])
         log("[Download]", download_url)
         torrent_data = get_page(download_url, proxies=cfg.get("proxies", self.proxies))
@@ -211,7 +216,10 @@ class BtSearch:
         return magnets
 
     def get_magnets_cilibaba(self, cfg, page_code):
-        hashes = re.findall('/api\/json_info\?hashes=.*?\'.*?\'(.*?)\'', page_code)[0]
+        try:
+            hashes = re.findall('/api\/json_info\?hashes=.*?\'.*?\'(.*?)\'', page_code)[0]
+        except IndexError:
+            return []
         json_url = '/'.join([cfg["home"], "api", "json_info?hashes=" + hashes])
         while True:
             hash_page_code = get_page(json_url, cfg.get("proxies", self.proxies))
