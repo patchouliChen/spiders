@@ -119,14 +119,6 @@ web_list = [
     },
 
     {
-        "home" : "http://bt2.bt87.cc",
-        "page_format" : "search/%s_ctime_%d.html",
-        "post_pattern" : 'target="_blank" href="/(?P<post>.*?.html)">(?P<title>.*?)</a>',
-        "magnet_pattern" : 'href="(magnet:\?xt=urn:btih:.*?)"', 
-        "active" : True,
-    },
-
-    {
         "home" : "https://btdig.com",
         "page_format" : "search?q=%s&p=%d&order=0",
         "post_pattern" : '<a href="https://btdig.com/(?P<post>search\?info_hash=.*?)&amp.*?">(?P<title>.*?)<a href="(?P<magnet>magnet:\?xt=urn:btih:.*?)&amp',
