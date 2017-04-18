@@ -14,8 +14,6 @@ class CL:
         self.torrent_path = "/Users/chenxiaoming/Documents/ts_spider" 
         self.cover_path = "/Users/chenxiaoming/Documents/cs_spider"
         self.proxies = {'http': 'socks5:127.0.0.1:1080'}
-        self.cover_log = "cover"
-        self.torrent_log = "torrent"
 
     def getCLPage(self, sub_url):
         url = self.home_page + sub_url
@@ -64,6 +62,12 @@ class CL:
                 "http://.*?imgspice.com.*?.[jpg|jpeg|gif]",
                 "http://.*?anony.ws.*?.[jpg|jpeg|gif]",
                 "http://.*?imgs.co.*?.[jpg|jpeg|gif]",
+                "http://imgpr0n.com.*?.[jpg|jpeg|gif]",
+                "http://urpi.cz.*?.[jpg|jpeg|gif]",
+                "http://.*?img-central.com.*?.[jpg|jpeg|gif]",
+                "http://.*?fullpix.net.*?.[jpg|jpeg|gif]",
+                "http://.*?qpic.ws.*?.[jpg|jpeg|gif]",
+                "https://.*?imgs.co.*?.[jpg|jpeg|gif]",
 
                 "http://.*?imagestorming.com/images.*?.[jpg|jpeg|gif]",
                 "http://.*?bigtox.com.*?.[jpg|jpeg|gif]",
@@ -99,11 +103,11 @@ class CL:
             f.write(data)
             f.close()
         except requests.exceptions.ConnectionError, e:
-            log_file(self.cover_log, "can not download image",  image_url)
+            log("can not download image",  image_url)
         except requests.exceptions.Timeout, e:
-            log_file(self.cover_log, "connect timeout", image_url)
+            log("connect timeout", image_url)
         except UnicodeDecodeError, e:
-            log_file(self.cover_log, "can not decode url", image_url)
+            log("can not decode url", image_url)
 
     def getTorrentValues(self, page_code):
         pattern = '<INPUT.*?ref.*?value="(.*?)".*?reff.*?value="(.*?)"'
@@ -145,12 +149,10 @@ class CL:
         return False
 
     def downloadCovers(self, page_index="1"):
-        clean_log(self.cover_log)
         page_index = int(page_index)
         while True:
             begin_log = "=========================executing page" + str(page_index) + "==============================" 
-            print begin_log
-            log_file(self.cover_log, begin_log)
+            log(begin_log)
             page_url = self.anime_page_prefix + str(page_index)
             page_code = get_page(page_url, self.proxies)
             post_urls = self.getPostURLs(page_code)
@@ -166,7 +168,7 @@ class CL:
                 image_urls = self.get_image_url(post_page_code)
 
                 if len(image_urls) == 0:
-                    log_file(self.cover_log, "can not find image url: ", self.home_page, url)
+                    log("can not find image url: ", self.home_page + url)
                     continue
 
                 image_url = image_urls[0].strip()
@@ -175,7 +177,7 @@ class CL:
                     continue
 
                 if len(image_urls) > 1:
-                    log_file(self.cover_log, "more than one image url: ", self.home_page, url)
+                    log("more than one image url: ", self.home_page + url)
 
                 self.saveImage(image_url, file_name)
             page_index += 1
@@ -184,8 +186,6 @@ class CL:
         if type(date_arg) == str:
             date_arg = get_date(date_arg)
 
-        clean_log(self.cover_log)
-        clean_log(self.torrent_log)
         page_index = 1
         should_continue = True
         while should_continue:
@@ -199,7 +199,7 @@ class CL:
                 title = self.getTitle(post_page_code)
                 items = self.getTorrentAndDate(post_page_code)
                 if len(items) == 0:
-                    log_file(self.torrent_log, "can not find torrent url: ", self.home_page, url)
+                    log("can not find torrent url: ", self.home_page + url)
                     continue
 
                 torrent_url = items[0][0]
@@ -222,13 +222,13 @@ class CL:
                         continue
                     image_urls = self.get_image_url(post_page_code)
                     if len(image_urls) == 0:
-                        log_file(self.cover_log, "can not find image url: ", self.home_page, url)
+                        log("can not find image url: ", self.home_page + url)
                         continue
                     image_url = image_urls[0].strip()
                     if self.filterURL(image_url) == True:
                         continue
                     if len(image_urls) > 1:
-                        log_file(self.cover_log, "more than one image url: ", self.home_page, url)
+                        log("more than one image url: ", self.home_page + url)
                     self.saveImage(image_url, image_name)
    
             page_index += 1
