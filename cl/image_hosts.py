@@ -30,6 +30,8 @@ image_hosts = [
     "http://.*?fullpix.net.*?.[jpg|jpeg|gif]",
     "http://.*?qpic.ws.*?.[jpg|jpeg|gif]",
     "https://.*?imgs.co.*?.[jpg|jpeg|gif]",
+    "http://.*?s9tu.com.*?.[jpg|jpeg|gif]",
+    "http://.*?upics.*?.[jpg|jpeg|gif]",
 
     "http://.*?imagestorming.com/images.*?.[jpg|jpeg|gif]",
     "http://.*?bigtox.com.*?.[jpg|jpeg|gif]",
