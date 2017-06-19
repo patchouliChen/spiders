@@ -32,6 +32,10 @@ image_hosts = [
     "https://.*?imgs.co.*?.[jpg|jpeg|gif]",
     "http://.*?s9tu.com.*?.[jpg|jpeg|gif]",
     "http://.*?upics.*?.[jpg|jpeg|gif]",
+    "http://.*?33img.com.*?.[jpg|jpeg|gif]",
+    "https://.*?uploadhouse.com.*?.[jpg|jpeg|gif]",
+    "http://.*?immage.biz.*?.[jpg|jpeg|gif]",
+    "http://.*?keep4u.ru.*?.[jpg|jpeg|gif]",
 
     "http://.*?imagestorming.com/images.*?.[jpg|jpeg|gif]",
     "http://.*?bigtox.com.*?.[jpg|jpeg|gif]",
