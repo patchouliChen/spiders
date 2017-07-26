@@ -70,26 +70,11 @@ class CL:
         except UnicodeDecodeError, e:
             log("can not decode url", image_url)
 
-    def getTorrentValues(self, page_code):
-        pattern = '<INPUT.*?ref.*?value="(.*?)".*?reff.*?value="(.*?)"'
+    def getMagnet(self, page_code):
+        pattern = '<a href="(magnet:\?xt=urn:btih:.*?)" onclick.*?</a>'
         r = re.compile(pattern, re.S)
         items = r.findall(page_code)
-        params = items[0]
-
-        values = {
-            "ref" : params[0],
-            "reff" : params[1],
-            "submit" : "download",
-        }
-
-        return values
-
-    def saveTorrent(self, post_values, file_name):
-        request = requests.post("http://www.rmdown.com/download.php", data = post_values, proxies=self.proxies)
-        data = request.content
-        f = open(file_name, "wb")
-        f.write(data)
-        f.close()
+        return items[0]
 
     def filterURL(self, image_url):
         for f in filters:
@@ -162,9 +147,12 @@ class CL:
 
                     #torrent
                     torrent_page_code = get_page(torrent_url, self.proxies)
-                    post_values = cl.getTorrentValues(torrent_page_code)
-                    torrent_name = os.path.join(folder, title + ".torrent")
-                    cl.saveTorrent(post_values, torrent_name)
+                    magnet = cl.getMagnet(torrent_page_code)
+                    magnet = magnet + "\n"
+                    magnet_file = os.path.join(folder, "magnet.txt")
+                    f = open(magnet_file, "a")
+                    f.write(magnet)
+                    f.close()
 
                     #image
                     image_name = os.path.join(folder, title + ".jpg")
